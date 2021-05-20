@@ -1,6 +1,6 @@
-name: 'github packages cleanup'
+name: 'github ghcr images cleanup'
 author: 'NodeFactory'
-description: 'github packages cleanup from the github package registry'
+description: 'github ghcr images cleanup from the github package registry'
 inputs:
   excluded_versions:
     description: 'allows to exclude certain versions, eg. x.y.z, stable, beta, latest,...'

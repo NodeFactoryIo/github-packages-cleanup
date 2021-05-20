@@ -1,7 +1,7 @@
 {
   "name": "github-packages-cleanup",
   "version": "1.0.0",
-  "description": "TypeScript github action for github packages cleanup",
+  "description": "TypeScript github action for ghcr images cleanup",
   "main": "dist/index.js",
   "author": {
     "name": "NodeFactory",

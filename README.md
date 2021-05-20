@@ -1,6 +1,6 @@
 # GitHub packages cleanup
 
-GitHub action for deleting versions of a package from [GitHub Packages](https://github.com/features/packages).
+GitHub action for ghcr images cleanup from [GitHub Packages](https://github.com/features/packages).
 
 ## Things that can be done
 * Delete a single version
