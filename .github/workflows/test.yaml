@@ -3,18 +3,30 @@ name: Test action
 on:
   pull_request:
     branches:
+      - master
       - 'master'
 
 jobs:
+  release:
+    name: Release package
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Push docker image to GitHub Packages
+          uses: docker/build-push-action@v1
+          with:
+            username: ${{ secrets.CR_USER }}
+            password: ${{ secrets.CR_WRITE_PAT }}
+            registry: ghcr.io
+        - run: yarn run build
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Login to GitHub
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ secrets.CR_USER }}
-          password: ${{ secrets.CR_PAT }}
-      - run: yarn run build
+    name: Test GitHub action
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Run cleanup action
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            num_versions_to_keep: 1
