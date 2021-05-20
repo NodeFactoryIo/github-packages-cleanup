@@ -1,0 +1,25 @@
+name: 'github packages cleanup'
+author: 'NodeFactory'
+description: 'github packages cleanup from the github package registry'
+inputs:
+  excluded_versions:
+    description: 'allows to exclude certain versions, eg. x.y.z, stable, beta, latest,...'
+    required: true
+  num_versions_to_keep:
+    description: 'number of most recent versions to keep (excluded versions aren't included into count'
+    required: true
+  package_name:
+    description: 'name of github package'
+    required: true
+  token:
+    description: 'github auth token'
+    required: true
+  username:
+    description: 'github username'
+    required: false
+  organisation:
+    description: 'github organisation'
+    required: false
+runs:
+  using: 'node14'
+  main: 'dist/index.js'
