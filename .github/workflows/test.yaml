@@ -2,7 +2,7 @@ name: Test action
 
 on:
   branches:
-    - master
+  - master
 
 jobs:
   release:
