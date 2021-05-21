@@ -29,3 +29,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           num_versions_to_keep: 1
+      - run: yarn run build
