@@ -7,24 +7,24 @@ on:
 jobs:
   release:
     name: Release package
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-        - name: Push docker image to GitHub Packages
-          uses: docker/build-push-action@v1
-          with:
-            username: ${{ secrets.CR_USER }}
-            password: ${{ secrets.CR_WRITE_PAT }}
-            registry: ghcr.io
-        - run: yarn run build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Push docker image to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.CR_USER }}
+          password: ${{ secrets.CR_WRITE_PAT }}
+          registry: ghcr.io
+      - run: yarn run build
   test:
     name: Test GitHub action
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-        - name: Run cleanup action
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            num_versions_to_keep: 1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run cleanup action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          num_versions_to_keep: 1
