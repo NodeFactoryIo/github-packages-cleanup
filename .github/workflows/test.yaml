@@ -1,10 +1,8 @@
 name: Test action
 
 on:
-  pull_request:
-    branches:
-      - master
-      - 'master'
+  branches:
+    - master
 
 jobs:
   release:
