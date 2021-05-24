@@ -23,7 +23,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
       - name: tag hello world image
-        run: docker tag hello-world:latest ghcr.io/nodefactoryio/github-packages-cleanup-sample:${{github.sha}}
+        run: docker pull hello-world:latest && docker tag hello-world:latest ghcr.io/nodefactoryio/github-packages-cleanup-sample:${{github.sha}}
       - name: push hello world image
         run: docker push ghcr.io/nodefactoryio/github-packages-cleanup-sample:${{github.sha}}
       - name: Run cleanup action
