@@ -4,7 +4,7 @@ description: 'github ghcr images cleanup from the github package registry'
 inputs:
   excluded_versions:
     description: 'allows to exclude certain versions, eg. x.y.z, stable, beta, latest,...'
-    required: true
+    required: false
   num_versions_to_keep:
     description: 'number of most recent versions to keep (excluded versions aren't included into count'
     required: true
