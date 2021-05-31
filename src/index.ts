@@ -1,4 +1,4 @@
-import { getInput, setFailed } from "@actions/core";
+import { getInput, setFailed, setOutput } from "@actions/core";
 import { getOctokit } from "@actions/github";
 import { OctokitResponse } from "@octokit/types"
 import { FetchPackagesResponse } from "./types";
@@ -18,22 +18,25 @@ async function main() {
   if (token && !username && !organisation) {
     const fetchedPackages = await getAuthUserPackageVersions();
     const packagesToDelete = filterOutPackages(fetchedPackages);
-    packagesToDelete.forEach(element => {
-      deleteAuthUserPackageVersions(element!.id)
+    packagesToDelete.forEach(async (element) => {
+      const output = await deleteAuthUserPackageVersions(element!.id);
+      setOutput('DELETED_PACKAGES', output);
     });
     // delete user packages
   } else if (token && username && !organisation) {
     const fetchedPackages = await getUserPackageVersions();
     const packagesToDelete = filterOutPackages(fetchedPackages);
-    packagesToDelete.forEach(element => {
-      deleteUserPackageVersions(element!.id)
+    packagesToDelete.forEach(async (element) => {
+      const output = await deleteUserPackageVersions(element!.id);
+      setOutput('DELETED_PACKAGES', output);
     });
     // delete organisation packages
   } else if (token && !username && organisation) {
     const fetchedPackages = await getOrganisationPackageVersions();
     const packagesToDelete = filterOutPackages(fetchedPackages);
-    packagesToDelete.forEach(element => {
-      deleteOrganisationPackageVersions(element!.id)
+    packagesToDelete.forEach(async (element) => {
+      const output = await deleteOrganisationPackageVersions(element!.id);
+      setOutput('DELETED_PACKAGES', output);
     });
   } else {
     setFailed("Failed to fetch packages");
