@@ -32,7 +32,10 @@ jobs:
         run: docker push ghcr.io/nodefactoryio/github-packages-cleanup-sample:${{github.sha}}
       - name: Run cleanup action
         uses: ./
+        id: deleted-packages
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           package_name: github-packages-cleanup-sample
           num_versions_to_keep: 1
+      - name: Log deleted packages
+        run: echo "Deleted packages ${{ steps.deleted-packages.outputs.DELETED_PACKAGES }}"
