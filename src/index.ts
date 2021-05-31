@@ -3,12 +3,12 @@ import { getOctokit } from "@actions/github";
 import { OctokitResponse } from "@octokit/types"
 import { FetchPackagesResponse } from "./types";
 
-const excludedVersion = getInput('excluded_versions', { required: true });
+const excludedVersion = getInput('excluded_versions', { required: false });
 const numberOfVersionsToKeep = Number(getInput('num_versions_to_keep', { required: true }));
 const packageName = getInput('package_name', { required: true });
 const token = getInput('token', { required: true });
-const username = getInput('username');
-const organisation = getInput('organisation');
+const username = getInput('username', { required: false });
+const organisation = getInput('organisation', { required: false });
 
 
 const octokit = getOctokit(token);
