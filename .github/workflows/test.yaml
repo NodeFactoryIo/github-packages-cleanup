@@ -22,6 +22,10 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
+      - name: Install dependecies
+        run: yarn install
+      - name: Build
+        run: yarn run build
       - name: tag hello world image
         run: docker pull hello-world:latest && docker tag hello-world:latest ghcr.io/nodefactoryio/github-packages-cleanup-sample:${{github.sha}}
       - name: push hello world image
