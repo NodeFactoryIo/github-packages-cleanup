@@ -22,7 +22,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
-      - name: Install dependecies
+      - name: Install dependencies
         run: yarn install
       - name: Build
         run: yarn run build

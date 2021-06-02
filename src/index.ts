@@ -8,14 +8,14 @@ const numberOfVersionsToKeep = Number(getInput('num_versions_to_keep', { require
 const packageName = getInput('package_name', { required: true });
 const token = getInput('token', { required: true });
 const username = getInput('username', { required: false });
-const organisation = getInput('organisation', { required: false });
+const organization = getInput('organization', { required: false });
 
 
 const octokit = getOctokit(token);
 
 async function main() {
   // delete packages with token auth
-  if (token && !username && !organisation) {
+  if (token && !username && !organization) {
     const fetchedPackages = await getAuthUserPackageVersions();
     const packagesToDelete = filterOutPackages(fetchedPackages);
     packagesToDelete.forEach(async (element) => {
@@ -23,19 +23,19 @@ async function main() {
       setOutput('DELETED_PACKAGES', output);
     });
     // delete user packages
-  } else if (token && username && !organisation) {
+  } else if (token && username && !organization) {
     const fetchedPackages = await getUserPackageVersions();
     const packagesToDelete = filterOutPackages(fetchedPackages);
     packagesToDelete.forEach(async (element) => {
       const output = await deleteUserPackageVersions(element!.id);
       setOutput('DELETED_PACKAGES', output);
     });
-    // delete organisation packages
-  } else if (token && !username && organisation) {
-    const fetchedPackages = await getOrganisationPackageVersions();
+    // delete organization packages
+  } else if (token && !username && organization) {
+    const fetchedPackages = await getOrganizationPackageVersions();
     const packagesToDelete = filterOutPackages(fetchedPackages);
     packagesToDelete.forEach(async (element) => {
-      const output = await deleteOrganisationPackageVersions(element!.id);
+      const output = await deleteOrganizationPackageVersions(element!.id);
       setOutput('DELETED_PACKAGES', output);
     });
   } else {
@@ -75,19 +75,19 @@ async function deleteUserPackageVersions(packageId: number): Promise<OctokitResp
   });
 }
 
-async function getOrganisationPackageVersions(): Promise<OctokitResponse<FetchPackagesResponse[], number>> {
+async function getOrganizationPackageVersions(): Promise<OctokitResponse<FetchPackagesResponse[], number>> {
   return await octokit.request('GET /orgs/{org}/packages/{package_type}/{package_name}/versions', {
     package_type: 'container',
     package_name: packageName,
-    org: organisation
+    org: organization
   });
 }
 
-async function deleteOrganisationPackageVersions(packageId: number): Promise<OctokitResponse<FetchPackagesResponse[], number>> {
+async function deleteOrganizationPackageVersions(packageId: number): Promise<OctokitResponse<FetchPackagesResponse[], number>> {
   return await octokit.request('DELETE /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}', {
     package_type: 'container',
     package_name: packageName,
-    org: organisation,
+    org: organization,
     package_version_id: packageId
   });
 }

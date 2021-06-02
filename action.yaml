@@ -17,8 +17,8 @@ inputs:
   username:
     description: "github username"
     required: false
-  organisation:
-    description: "github organisation"
+  organization:
+    description: "github organization"
     required: false
 runs:
   using: "node12"
