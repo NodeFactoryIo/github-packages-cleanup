@@ -104,3 +104,5 @@ function filterOutPackages(existingPackages: OctokitResponse<FetchPackagesRespon
     // packages for deletion - omitting last n values
     .slice(0, length - numberOfVersionsToKeep);
 }
+
+main();
