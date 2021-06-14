@@ -14,32 +14,36 @@ const organization = getInput('organization', { required: false });
 const octokit = getOctokit(token);
 
 async function main() {
-  // delete packages with token auth
-  if (token && !username && !organization) {
-    const fetchedPackages = await getAuthUserPackageVersions();
-    const packagesToDelete = filterOutPackages(fetchedPackages);
-    packagesToDelete.forEach(async (element) => {
-      const output = await deleteAuthUserPackageVersions(element!.id);
-      setOutput('DELETED_PACKAGES', output);
-    });
-    // delete user packages
-  } else if (token && username && !organization) {
-    const fetchedPackages = await getUserPackageVersions();
-    const packagesToDelete = filterOutPackages(fetchedPackages);
-    packagesToDelete.forEach(async (element) => {
-      const output = await deleteUserPackageVersions(element!.id);
-      setOutput('DELETED_PACKAGES', output);
-    });
-    // delete organization packages
-  } else if (token && !username && organization) {
-    const fetchedPackages = await getOrganizationPackageVersions();
-    const packagesToDelete = filterOutPackages(fetchedPackages);
-    packagesToDelete.forEach(async (element) => {
-      const output = await deleteOrganizationPackageVersions(element!.id);
-      setOutput('DELETED_PACKAGES', output);
-    });
-  } else {
-    setFailed("Failed to fetch packages");
+  try {
+    // delete packages with token auth
+    if (token && !username && !organization) {
+      const fetchedPackages = await getAuthUserPackageVersions();
+      const packagesToDelete = filterOutPackages(fetchedPackages);
+      packagesToDelete.forEach(async (element) => {
+        const output = await deleteAuthUserPackageVersions(element!.id);
+        setOutput('DELETED_PACKAGES', output);
+      });
+      // delete user packages
+    } else if (token && username && !organization) {
+      const fetchedPackages = await getUserPackageVersions();
+      const packagesToDelete = filterOutPackages(fetchedPackages);
+      packagesToDelete.forEach(async (element) => {
+        const output = await deleteUserPackageVersions(element!.id);
+        setOutput('DELETED_PACKAGES', output);
+      });
+      // delete organization packages
+    } else if (token && !username && organization) {
+      const fetchedPackages = await getOrganizationPackageVersions();
+      const packagesToDelete = filterOutPackages(fetchedPackages);
+      packagesToDelete.forEach(async (element) => {
+        const output = await deleteOrganizationPackageVersions(element!.id);
+        setOutput('DELETED_PACKAGES', output);
+      });
+    } else {
+      setFailed("Failed to fetch packages");
+    }
+  } catch (e) {
+    console.error(`Deleting package failed because of: ${e}`);
   }
 }
 
