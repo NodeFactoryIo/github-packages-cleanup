@@ -29,10 +29,6 @@ jobs:
         run: docker pull hello-world:latest && docker tag hello-world:latest ghcr.io/nodefactoryio/github-packages-cleanup-sample:${{github.sha}}
       - name: push hello world image
         run: docker push ghcr.io/nodefactoryio/github-packages-cleanup-sample:${{github.sha}}
-      - name: tag postgres image
-        run: docker pull postgres:latest && docker tag postgres:latest ghcr.io/nodefactoryio/github-packages-cleanup-sample-2:${{github.sha}}
-      - name: push postgres image
-        run: docker push ghcr.io/nodefactoryio/github-packages-cleanup-sample-2:${{github.sha}}
       - name: Run cleanup action
         uses: ./
         id: deleted-packages
