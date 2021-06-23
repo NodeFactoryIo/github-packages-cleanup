@@ -97,7 +97,7 @@ async function deleteOrganizationPackageVersions(packageId: number): Promise<Oct
 }
 
 function filterOutPackages(existingPackages: OctokitResponse<FetchPackagesResponse[], number>): (FetchPackagesResponse | undefined)[] {
-  return existingPackages.data.map((item) => {
+  return existingPackages.data.map((item: FetchPackagesResponse) => {
     // find package versions matching regex
     if (!item.metadata?.container?.tags[0]?.match(excludedVersion)) {
       return item;
@@ -106,7 +106,7 @@ function filterOutPackages(existingPackages: OctokitResponse<FetchPackagesRespon
     // filter out undefined values
     .filter(item => item)
     // packages for deletion - omitting last n values
-    .slice(0, length - numberOfVersionsToKeep);
+    .slice(0, existingPackages.data.length - numberOfVersionsToKeep);
 }
 
 main();
