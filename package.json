@@ -1,0 +1,28 @@
+{
+  "name": "github-packages-cleanup",
+  "version": "1.0.0",
+  "description": "TypeScript github action for ghcr images cleanup",
+  "main": "dist/index.js",
+  "author": {
+    "name": "NodeFactory",
+    "email": "info@nodefactory.io"
+  },
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://git@github.com:nodefactoryio/github-packages-cleanup.git"
+  },
+  "scripts": {
+    "build": "ncc build src/index.ts"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.7",
+    "@actions/github": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.2",
+    "@vercel/ncc": "^0.28.5",
+    "typescript": "^4.2.4"
+  }
+}
