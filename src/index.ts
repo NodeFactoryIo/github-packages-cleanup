@@ -15,30 +15,31 @@ const octokit = getOctokit(token);
 
 async function main() {
   try {
+    let deletedPckgsOutput = undefined;
     // delete packages with token auth
     if (token && !username && !organization) {
       const fetchedPackages = await getAuthUserPackageVersions();
       const packagesToDelete = filterOutPackages(fetchedPackages);
       packagesToDelete.forEach(async (element) => {
-        const output = await deleteAuthUserPackageVersions(element!.id);
-        setOutput('DELETED_PACKAGES', output);
+        deletedPckgsOutput = await deleteAuthUserPackageVersions(element!.id);
       });
+      setOutput('DELETED_PACKAGES', deletedPckgsOutput ?? 0);
       // delete user packages
     } else if (token && username && !organization) {
       const fetchedPackages = await getUserPackageVersions();
       const packagesToDelete = filterOutPackages(fetchedPackages);
       packagesToDelete.forEach(async (element) => {
-        const output = await deleteUserPackageVersions(element!.id);
-        setOutput('DELETED_PACKAGES', output);
+        deletedPckgsOutput = await deleteUserPackageVersions(element!.id);
       });
+      setOutput('DELETED_PACKAGES', deletedPckgsOutput ?? 0);
       // delete organization packages
     } else if (token && !username && organization) {
       const fetchedPackages = await getOrganizationPackageVersions();
       const packagesToDelete = filterOutPackages(fetchedPackages);
       packagesToDelete.forEach(async (element) => {
-        const output = await deleteOrganizationPackageVersions(element!.id);
-        setOutput('DELETED_PACKAGES', output);
+        deletedPckgsOutput = await deleteOrganizationPackageVersions(element!.id);
       });
+      setOutput('DELETED_PACKAGES', deletedPckgsOutput ?? 0);
     } else {
       setFailed("Failed to fetch packages");
     }
@@ -99,7 +100,7 @@ async function deleteOrganizationPackageVersions(packageId: number): Promise<Oct
 function filterOutPackages(existingPackages: OctokitResponse<FetchPackagesResponse[], number>): (FetchPackagesResponse | undefined)[] {
   return existingPackages.data.map((item: FetchPackagesResponse) => {
     // find package versions matching regex
-    if (!item.metadata?.container?.tags[0]?.match(excludedVersion)) {
+    if (item.metadata?.container?.tags[0]?.match(excludedVersion).index == 0) {
       return item;
     };
   })
